@@ -7,13 +7,13 @@ namespace Vidly.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class PopulateMembershipType1 : IMigrationMetadata
+    public sealed partial class SeedUsers : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateMembershipType1));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(SeedUsers));
         
         string IMigrationMetadata.Id
         {
-            get { return "201803270629156_PopulateMembershipType1"; }
+            get { return "201803300904184_SeedUsers"; }
         }
         
         string IMigrationMetadata.Source

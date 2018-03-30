@@ -60,6 +60,7 @@ namespace Vidly.Controllers
 			_db.SaveChanges();
 			return RedirectToAction("Index", "Customers");
 		}
+        [Authorize]
         // GET: Customers
         public ViewResult Index()
         {

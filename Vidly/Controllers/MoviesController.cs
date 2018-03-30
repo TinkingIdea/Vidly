@@ -59,8 +59,10 @@ namespace Vidly.Controllers
 
 		public ViewResult Index()
 		{
-			var movies = _db.Movies.Include(c => c.Genre).ToList();
-			return View(movies);
+		    if (User.IsInRole("CanManageMovies"))
+		        return View("List");
+		    else
+		        return View("ReadOnlyList");
 		}
 
 		[Route("Movies/released/{year}/{month}")]
