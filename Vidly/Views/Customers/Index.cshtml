@@ -4,39 +4,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2>Customer</h2>
-@if (!Model.Any())
-{
-    <p>这里什么都没有</p>
-}
-else
-{
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th>Customer</th>
-            <th>Discount Rate</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var customer in Model)
-        {
-            <tr>
-                <td>@Html.ActionLink(customer.Name,"Edit","Customers",new { id=customer.Id},"")</td>
-                <td>@customer.MembershipType.Name</td>
-                <td>
-                    <button class="btn btn-link js-delete">Delete</button>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Customer</th>
+        <th>Membership Type</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
 @section scripts{
     <script>
-        $(document).ready(function() {
-            $("#cusomers .js-delete").on("click",
-                function() {
-                    confirm("你确定要删除吗?");
+        $(function () {
+            var table=$("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc:""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function(data,type,customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data:"membershipType.name"
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#customers ").on("click",".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("你确定删除这个Customer吗?",
+                        function(result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/customers/" + button.attr("data-customer-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        table.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
+                        });
                 });
         });
     </script>

@@ -16,6 +16,8 @@ namespace Vidly.Dtos
 		public bool IsSubscribedToNewsletter { get; set; }
 		
 		public byte? MembershipTypeId { get; set; }
+
+	    public MembershipType MembershipType { get; set; }
 //		[Min18YearIfAMember]
 		public DateTime? Birthdate { get; set; }
 	}
